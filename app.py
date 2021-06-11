@@ -2,18 +2,7 @@ from helpers import getTeams
 from flask import Flask, escape, request
 from predictor import Predictor
 
-# Commenting Flask for PythonAnywhere
-# https://help.pythonanywhere.com/pages/Flask
-# app = Flask(__name__)
-
-# PythonAnywhere requires this import
-import sys
-path = '/home/reyesrico/49ers-predictor'
-if path not in sys.path:
-   sys.path.insert(0, path)
-
-from flask_app import app as application
-
+app = Flask(__name__)
 
 white = ['http://localhost:8080','http://localhost:3000', 'http://localhost:5000']
 
@@ -61,3 +50,6 @@ def predict():
   return {
     "predict": result
   }
+
+if __name__ == '__main__':
+    app.run()
