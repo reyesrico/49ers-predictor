@@ -2,21 +2,32 @@ from helpers import getTeams
 from flask import Flask, escape, request
 from predictor import Predictor
 
-app = Flask(__name__)
+# Commenting Flask for PythonAnywhere
+# https://help.pythonanywhere.com/pages/Flask
+# app = Flask(__name__)
+
+# PythonAnywhere requires this import
+import sys
+path = '/home/reyesrico/49ers-predictor'
+if path not in sys.path:
+   sys.path.insert(0, path)
+
+from flask_app import app as application
+
 
 white = ['http://localhost:8080','http://localhost:3000', 'http://localhost:5000']
 
 @app.after_request
 def add_cors_headers(response):
-    r = request.referrer[:-1]
-    if r in white:
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-        response.headers.add('Access-Control-Allow-Headers', 'Cache-Control')
-        response.headers.add('Access-Control-Allow-Headers', 'X-Requested-With')
-        response.headers.add('Access-Control-Allow-Headers', 'Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+    # r = request.referrer[:-1]
+    # if r in white:
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+    response.headers.add('Access-Control-Allow-Headers', 'Cache-Control')
+    response.headers.add('Access-Control-Allow-Headers', 'X-Requested-With')
+    response.headers.add('Access-Control-Allow-Headers', 'Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
     return response
 
 # HELLO WORLD
