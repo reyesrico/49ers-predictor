@@ -6,8 +6,9 @@ app = Flask(__name__)
 
 white = ['http://localhost:8080','http://localhost:3000', 'http://localhost:5000']
 
-pred = Predictor()
-predInitialized = False
+# Does not work
+# pred = Predictor()
+# predInitialized = False
 
 @app.after_request
 def add_cors_headers(response):
@@ -34,6 +35,7 @@ def teams():
 
 @app.route('/init', methods=['GET'])
 def init():
+  pred = Predictor()
   pred.generateData()
   pred.trainData()
   predInitialized = True
@@ -67,11 +69,12 @@ def predict():
   weatherWindMPH = request.args.get('weather_wind', '')
   weatherHumidity = request.args.get('weather_humidity', '')
 
-  result = False
+  pred = Predictor()
+  pred.generateData()
+  pred.trainData()
 
-  if predInitialized:
-    result = pred.predict(teamNumber, weekNumber, isPlayoff, isSuperBowl, is49ersLocal, weatherWindMPH, weatherHumidity)
-    print('Super result!!! => ' + str(result))
+  result = pred.predict(teamNumber, weekNumber, isPlayoff, isSuperBowl, is49ersLocal, weatherWindMPH, weatherHumidity)
+  print('Super result!!! => ' + str(result))
 
   return { "predict": result }
 
